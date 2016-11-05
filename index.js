@@ -1,11 +1,19 @@
-var log = require('npmlog');
-var express = require('express');
-var server = express();
-var cookie_parser = require('cookie-parser');
 var fs = require('fs');
+var log = require('npmlog');
+var clone = require('clone');
+var reloader = require('./reloader.js');
+
+var express = require('express');
+var cookie_parser = require('cookie-parser');
+var body_parser = require('body-parser');
+var multer  = require('multer');
+var server = express();
+
 var ejs = require('ejs');
 var db = require('./database.js');
-var clone = require('clone');
+var sites = require('./sites.js');
+
+var renderer = reloader('./renderer.js');
 
 db.connect({
     host      : 'localhost',
@@ -31,6 +39,13 @@ db.insert('users', { username: 'admin', password: '1234'}, function(error, rows)
 
 */
 
+await db.selectRow("*", "users", { user_id: 1 }, function(err, row) {
+    log.info('res', row);
+} );
+
+//process.exit();
+return;
+
 /*
 db.update('users',
     { username: 'yaysa', password: 'gaga', email: 'dodo', flags: 1 },
@@ -47,63 +62,42 @@ ejs.renderFileSync = function( fname, opts ) {
 
 process.chdir(__dirname);
 
-var structures = {
+var pages = sites.default.pages;
+var menus = sites.default.mainmenu;
 
-    dashboard: {
-
-    },
-
-    users: {
-        title: 'Users',
-        type: 'datatable',
-        data: 'users',
-        actions: ['add', 'edit', 'delete'],
-
-        fields: {
-            user_id: {
-                type: 'int', required: true, auto: true,
-                title: 'ID' },
-
-            name: {
-                type: 'string',
-                title: 'Name' },
-
-            password: {
-                type: 'password',
-                title: 'Password' },
-
-            email: {
-                type: 'email',
-                title: 'Email' },
-
-            status: {
-                type: 'string',
-                title: 'Status',
-                options: { } }
-        }
-    }
-
-
-
-}
-
-
+server.locals.db = db;
+server.locals.app_name = 'Simple';
 
 server.set('view engine', 'ejs');
-server.set('views', process.cwd());
+server.set('views', process.cwd() + '/views');
+server.set('x-powered-by', false);
 server.use(cookie_parser());
+server.use(body_parser.json());
+server.use(body_parser.urlencoded({extended: true}));
+server.use(multer({ dest: './uploads/'}).any());
 server.use(express.static('public'));
 
+server.register = function(path, page) {
+    server.all(path, function(req, res) {
+        page.app_name = 'Simple'
+        page.menus = menus;
 
-for(var name in structures) {
-    var n = name;
-    var section = clone(structures[name]);
-
-    server.get('/' + name, function(req, res) {
-
-        res.send(section.title);
+        log.http("incoming", req.ip);
+        renderer.handle(req, res, page);
     });
 }
+
+var pi = 0;
+for(var page in pages) {
+    var path = '/' + page;
+    var section = clone(pages[page]);
+    if (pi++ == 0)
+        server.register('/', section);
+    server.register(path, section);
+}
+
+
+
 
 /*
 server.use(function(req, res, next) {

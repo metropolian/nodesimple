@@ -1,0 +1,30 @@
+<%- include base_header %>
+<div class="wrapper">
+<div class="container">
+    <div class="text-center">
+
+            <div class="col-md-offset-3 col-md-6 panel">
+                <h2 class="form-signin-heading">Log in</h2>
+                <p class="text-muted"></p>
+                <br>
+                                <form action="" method="POST" enctype="multipart/form-data"><input name="func" id="func" type="hidden" value="auth">
+<div class="form-group"><label class="control-label" for="username">Username</label><div><input class="form-control" required="" name="username" id="username" type="text" value="">
+</div></div>
+<div class="form-group"><label class="control-label" for="password">Password</label><div><input class="form-control" required="" name="password" id="password" type="password" value="">
+</div></div>
+<div class="form-group"><label class="control-label" for="">&nbsp;</label><div><button class="btn btn-primary btn-lg btn-center" name="" type="submit">Sign In</button>
+</div></div>
+</form>
+              <p>
+                Don't have an account? <a href="register.php">Sign Up for Free!</a>
+              </p>
+              <p>
+                Can't login? <a href="recovery.php">Password Recovery</a>
+              </p>
+            </div>
+
+
+    </div>
+</div>
+</div>
+<%- include base_footer %>

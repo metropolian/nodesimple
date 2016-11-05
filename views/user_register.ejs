@@ -1,0 +1,38 @@
+<%- include base_header %>
+<div class="container">
+    <div class="text-center">
+        <div class="col-md-offset-3 col-md-6 panel panel-default">
+            <h2 class="form-signin-heading">Create Account</h2>
+<p class="text-muted">join us for free, Give us your new account informations</p>
+<br>
+<form class="form-horizontal" action="#" method="POST" enctype="multipart/form-data"><input name="func" id="func" type="hidden" value="regis">
+<input name="t" id="t" type="hidden" value="1478362296">
+<input name="withpwd" id="withpwd" type="hidden" value="1">
+<input name="withdetails" id="withdetails" type="hidden" value="">
+<div class="form-group"><label class="control-label col-md-3" for="email">Email</label><div class=" col-md-9"><input class="form-control" required="" placeholder="email@domain.com" data-type="email" data-error="Email is not correct" name="email" id="email" type="text" value="">
+</div></div>
+<div class="form-group"><label class="control-label col-md-3" for="password">Password</label><div class=" col-md-9"><input class="form-control" required="" name="password" id="password" type="password" value="">
+</div></div>
+<div class="form-group"><label class="control-label col-md-3" for="password2">Re-type</label><div class=" col-md-9"><input class="form-control" required="" name="password2" id="password2" type="password" value="">
+</div></div>
+<div class="form-group"><label class="control-label col-md-3" for="first_name">First name</label><div class=" col-md-9"><input class="form-control" required="" name="first_name" id="first_name" type="text" value="">
+</div></div>
+<div class="form-group"><label class="control-label col-md-3" for="last_name">Last name</label><div class=" col-md-9"><input class="form-control" name="last_name" id="last_name" type="text" value="">
+</div></div>
+<div class="form-group"><label class="control-label col-md-3" for="gender">Gender</label><div class="radio"><label><input name="gender" id="gender" type="radio" value="1"><span class="circle"></span><span class="check"></span>
+ Male </label>
+<label><input name="gender" id="gender" type="radio" value="2"><span class="circle"></span><span class="check"></span>
+ Female </label>
+</div></div>
+<div class="form-group"><label class="control-label col-md-3" for="address">Address</label><div class=" col-md-9"><textarea class="form-control" rows="3" name="address" id="address"></textarea>
+</div></div>
+<div class="form-group"><label class="control-label col-md-3" for="telephone">Telephone</label><div class=" col-md-9"><input class="form-control" required="" maxlength="12" placeholder="08123456789" data-type="number" data-error="Please enter numbers" name="telephone" id="telephone" type="text" value="">
+</div></div>
+<div class="form-group"><label class="control-label col-md-3" for="">&nbsp;</label><div class=" col-md-9"><button class="btn btn-success" name="" type="submit">Create</button>
+</div></div>
+</form><p>
+  Already have an account? <a href="login">Sign in</a>
+</p>        </div>
+    </div>
+</div>
+<%- include base_footer %>

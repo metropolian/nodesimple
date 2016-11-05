@@ -1,39 +1,16 @@
-<footer class="footer">
-  <div class="container">
-      <div class="row">
-          <div class="col-md-4">
-              <h4><?php echo Meta('title'); ?></h4>
-              <p><i class="fa fa-phone"></i> <?php echo Meta('contact_name'); ?>
-                  <?php echo Meta('contact_phone'); ?></p>
-              <p><i class="fa fa-envelope"></i> <?php echo Meta('contact_email'); ?></p>
-              <h4>Follow us</h4>
-
-              <p>
-                  <a href="<?php echo Meta('contact_facebook_link') ?>" target="_blank"><img src="images/socials/simple/facebook-small.png" /></a>
-                  <a href="<?php echo Meta('contact_google_link') ?>" target="_blank"><img src="images/socials/simple/google-small.png" /></a>
-                  <a href="<?php echo Meta('contact_line_link') ?>" target="_blank"><img src="images/socials/simple/line-small.png" /></a>
-                  <a href="mailto:<?php echo Meta('contact_email') ?>" target="_blank"><img src="images/socials/simple/email-small.png" /></a>
+    <footer class="footer">
+      <div class="container">
+          <div class="row">
+              <p class="text-muted pull-left">Copyright &copy; 2010-<?php echo date('Y') ?>
+                  <a href="<?php echo Meta('site_url'); ?>"><?php echo Meta('title'); ?></a></p>
+              <p class="text-muted pull-right">
+                  Powered by Dynamic CMS Technology <a href="mailto:metropolian@live.com">metropolian@live.com</a>
               </p>
-          </div>
-          <div class="col-md-4">
-              <h4>Support</h4>
-              <h4>Email Newsletters</h4>
-              <form class="form-horizontal">
-                  <input type="text" class="form-control" />
-                  <button type="submit" class="btn btn-success btn-sm">Subscribe</button>
-              </form>
-          </div>
-          <div class="col-md-4">
-              <h4>About us</h4>
-              <p><?php echo Meta('long_desc'); ?></p>
-          </div>
+            </div>
       </div>
-      <div class="row">
-          <p class="text-muted pull-left">Copyright &copy; 2010-<?php echo date('Y') ?>
-              <a href="<?php echo Meta('site_url'); ?>"><?php echo Meta('title'); ?></a></p>
-          <p class="text-muted pull-right">
-              Powered by Dynamic CMS Technology <a href="mailto:metropolian@live.com">metropolian@live.com</a>
-          </p>
-        </div>
-  </div>
-</footer>
+    </footer>
+    <script src="js/material.min.js" type="text/javascript"></script>
+    <script src="js/ripples.min.js" type="text/javascript"></script>
+    <script src="js/dependencies/sails.io.js" type="text/javascript"></script>
+</body>
+</html>

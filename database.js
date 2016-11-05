@@ -41,8 +41,16 @@ db.query = function( q, cb ) {
     return true;
 };
 
-db.select = function( columns, where, cb ) {
+db.selectRow = function( columns, tb, where, cb ) {
+    var q = "SELECT " + columns + " FROM " + tb + " " + db.where(where) + " LIMIT 1";
 
+    return db.query(q, function(err, results) {
+        if (err) {
+            cb(err, null);
+        } else {
+            cb(err, results[0]);
+        }
+    });
 };
 
 db.insert = function( tb, data, cb ) {
