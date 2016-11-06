@@ -1,0 +1,26 @@
+<%- include base_header %>
+<div class="wrapper">
+    <div class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3><%- page.title %></h3>
+            <div class="pull-right">
+                <a href="#">Edit </a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <table class="table">
+                <thead>
+                    <tr><% for(var name in page.fields) { var column = page.fields[name]; %>
+                        <th><%=column.title %></th>
+                    <% } %></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<%- include base_footer %>

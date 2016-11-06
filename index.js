@@ -2,6 +2,7 @@ var fs = require('fs');
 var log = require('npmlog');
 var clone = require('clone');
 var reloader = require('./reloader.js');
+var promise = require('bluebird');
 
 var express = require('express');
 var cookie_parser = require('cookie-parser');
@@ -13,7 +14,7 @@ var ejs = require('ejs');
 var db = require('./database.js');
 var sites = require('./sites.js');
 
-var renderer = reloader('./renderer.js');
+var engine = reloader('./engine.js');
 
 db.connect({
     host      : 'localhost',
@@ -39,12 +40,23 @@ db.insert('users', { username: 'admin', password: '1234'}, function(error, rows)
 
 */
 
-await db.selectRow("*", "users", { user_id: 1 }, function(err, row) {
-    log.info('res', row);
-} );
+/*
+new promise(function(resolve) {
+    db.selectRow("*", "users", { user_id: 1 }, function(err, row) {
+        log.info('res', row);
+        resolve();
+    } );
+}).then(function(){
+    log.info('done', 'done');
+
+}).catch(function(){
+    log.info('done', 'done');
+});
+
+*/
 
 //process.exit();
-return;
+//return;
 
 /*
 db.update('users',
@@ -70,6 +82,7 @@ server.locals.app_name = 'Simple';
 
 server.set('view engine', 'ejs');
 server.set('views', process.cwd() + '/views');
+server.set('view options', { })
 server.set('x-powered-by', false);
 server.use(cookie_parser());
 server.use(body_parser.json());
@@ -77,23 +90,35 @@ server.use(body_parser.urlencoded({extended: true}));
 server.use(multer({ dest: './uploads/'}).any());
 server.use(express.static('public'));
 
-server.register = function(path, page) {
+server.registerPath = function(path, page, renderer) {
     server.all(path, function(req, res) {
-        page.app_name = 'Simple'
+        page.app_name = 'Simple';
         page.menus = menus;
+        req.page = page;
+        req.renderer = renderer;
 
         log.http("incoming", req.ip);
-        renderer.handle(req, res, page);
+        log.http("page", req.page);
+        engine.handle(req, res);
     });
+}
+
+server.registerPage = function(page) {
+    for(var path in page.mapping) {
+        var renderer = page.mapping[path];
+        log.http("register", path);
+
+        server.registerPath(path, page, renderer);
+    }
 }
 
 var pi = 0;
 for(var page in pages) {
     var path = '/' + page;
     var section = clone(pages[page]);
-    if (pi++ == 0)
-        server.register('/', section);
-    server.register(path, section);
+    /*if (pi++ == 0)
+        server.register('/', section); */
+    server.registerPage(section);
 }
 
 

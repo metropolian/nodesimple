@@ -4,17 +4,27 @@ module.exports = {
 
         mainmenu: [
             { href: "/", title: "Dashboard" },
-            { href: "/users", title: "Users" },
+            { href: "/table", title: "Table" },
+            { href: "/users", title: "Users" }
         ],
 
         pages: {
 
             dashboard: {
+                type: 'dashboard',
                 title: 'Dashboard',
-                type: 'dashboard'
+                mapping: {
+                    "/": function(req, res) {
+                        res.render('dashboard', req.data);
+                    },
+                }
             },
 
+            table: require('./controllers/table.js'),
+
+            /*
             users: {
+                path: '/users',
                 title: 'Users',
                 type: 'datatable',
                 data: 'users',
@@ -44,30 +54,15 @@ module.exports = {
                 }
             },
 
+            */
 
-            login: {
-                title: 'Login',
-                type: 'login',
-                view: 'user_login'
-            },
+            login: require('./controllers/users/login.js'),
 
-            logout: {
-                title: 'Logout',
-                type: 'logout',
-                view: 'user_logout'
-            },
+            logout: require('./controllers/users/logout.js'),
 
-            register: {
-                title: 'Logout',
-                type: 'logout',
-                view: 'user_register'
-            },
+            register: require('./controllers/users/register.js'),
 
-            recovery: {
-                title: 'Recovery Password',
-                type: 'recovery',
-                view: 'user_recovery'
-            },
+            recovery: require('./controllers/users/recovery.js'),
 
         }
     }
