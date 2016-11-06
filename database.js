@@ -49,13 +49,17 @@ db.where = function( conds ) {
 
 db.query = function( q, cb ) {
     connection.getConnection(function(err, link) {
-        link.query( q, function(err, results) {
-            log.info('sql', q);
-            link.release();
-            if (results)
-                results.query = q;
-            cb(err, results);
-        });
+        if (err) {
+            cb(err, null);            
+        } else {
+            link.query( q, function(err, results) {
+                log.info('sql', q);
+                link.release();
+                if (results)
+                    results.query = q;
+                cb(err, results);
+            });
+        }
     });
     return true;
 };

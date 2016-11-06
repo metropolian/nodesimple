@@ -39,11 +39,17 @@ module.exports = {
 
             req.app.locals.db.query("SELECT * FROM users", function(err, rows) {
 
-                req.data.data = rows;
+                if (!err) {
 
-                log.info('data', rows);
+                    req.data.data = rows;
+                    log.info('data', rows);
+                    res.render("datatable", req.data);
 
-                res.render("datatable", req.data);
+                } else {
+
+                    req.data.error = err;
+                    res.render("error", req.data);
+                }
 
             });
 

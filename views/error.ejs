@@ -1,0 +1,14 @@
+<%- include base_header %>
+<div class="wrapper">
+    <div class="container">
+        <div class="jumbotron">
+            <h2>Something happened!</h2>
+            <hr/>
+            <p><%=error.message %></p>
+            <p></p>
+            <p class="text-center">So, I want to <a href="javascript: window.location.reload();" class="btn btn-warning">try again</a> or 
+                <a href="javascript: window.history.back()" class="btn btn-info">go back</a></p>
+        </div>
+    </div>
+</div>
+<%- include base_footer %>
