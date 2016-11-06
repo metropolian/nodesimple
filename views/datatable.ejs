@@ -3,24 +3,65 @@
     <div class="container">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3><%- page.title %></h3>
-            <div class="pull-right">
-                <a href="#">Edit </a>
-            </div>
+            <h3 class="panel-title"><%- page.title %></h3>
+            <div class="clearfix"></div>
         </div>
         <div class="panel-body">
+            <div class="pull-right">
+                <a href="#" class="btn btn-xs btn-primary">Edit </a>
+            </div>
             <table class="table">
                 <thead>
-                    <tr><% for(var name in page.fields) { var column = page.fields[name]; %>
-                        <th><%=column.title %></th>
+                    <tr>
+                    <th>&nbsp;</th>
+                    <% for(var name in page.fields) { var column = page.fields[name]; %>
+                    <th><%=column.title %></th>
                     <% } %></tr>
                 </thead>
                 <tbody>
-                    <tr><td>1</td></tr>
+                    <% for(var y = 0; y < data.length; y++) { var row = data[y]; %>
+                    <tr><td><input type="checkbox" name="ch" /></td>
+                        <% for(var name in page.fields) { %><td><%=row[name]; %></td><% } %></tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 </div>
+<link rel="stylesheet" href="/js/datatables/datatables.css" type="text/css" />
+<script type="text/javascript" src="/js/datatables/datatables.js"></script>
+<script>
+$(document).ready(function(){
+    var table = $('.table').DataTable({
+        // fltipr
+        dom: '<"row"<"col-sm-3"f><"col-sm-4 toolbar">>t<"row"<"col-sm-2"l><"col-sm-4"i><"col-sm-6"p>>r',
+        buttons: [
+            { text:'Copy', className: 'btn btn-sm'},
+            { text:'Excel', className: 'btn btn-sm'},
+            { text:'PDF', className: 'btn btn-sm'}
+
+        ]
+    });
+/*
+        var tt = new $.fn.dataTable.TableTools( table );
+
+        $( tt.fnContainer() ).insertBefore('#datatable-tabletools_wrapper div.dataTables_filter');
+
+        $('.DTTT_container').addClass('btn-group');
+        $('.DTTT_container a').addClass('btn btn-default btn-md');
+
+        $('.dataTables_filter input').attr("placeholder", "Search..."); */
+})
+/*
+$(".table").dataTable({
+    dom: 'flB<"btn btn-sm pull-right">rtip',
+    buttons: [
+            'copy',
+            'excel',
+            'csv',
+            'pdf'
+        ]
+}); */
+</script>
 <%- include base_footer %>

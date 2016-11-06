@@ -1,43 +1,73 @@
 var log = require('npmlog');
+var Promise = require('bluebird');
 
 module.exports = function(req, res) {
     var locals = req.app.locals;
     var inputs = req.inputs = req.body;
     var type = req.page.type;
 
-    log.info("locals", locals);
-
     req.data =
     {
         app_name: locals.app_name,
         page: req.page,
         user: null,
-        errors: null,
+        error: null,
 
         title: req.page.title,
         body: '',
         mainmenu: req.page.menus
     };
 
-    log.info("req-type", type);
+    req.data.user = null;
 
-    if (req.cookies.uid) {
+    new Promise(function(resolve) {
 
-        if (type == "logout") {
-            res.cookie('uid', 0, { expires: new Date(Date.now() - 9) });
+        if (req.cookies.uid && req.cookies.utoken) {
+            var uid = req.cookies.uid;
+            var utoken = req.cookies.utoken;
+
+            if (req.app.locals.users[uid]) {
+
+                if (req.app.locals.users[uid].access_token == utoken) {
+
+                    req.data.user = req.app.locals.users[uid];
+                    resolve();
+                    return;
+                }
+            }
+
+            req.app.locals.db.selectRow("*", "users", {access_token: utoken}, function(err, row) {
+
+                if (row) {
+                    var user_id = row.user_id;
+                    if (user_id > 0) {
+
+                        req.app.locals.users[row.user_id] = row;
+                        req.data.user = row;
+
+                        log.info('user', req.data.user);                        
+                    }
+                }
+
+                resolve();
+            });
 
         } else {
 
-            req.data.user = { user_id: 1, username: 'admin' };
-
+            resolve();
         }
 
-    }
 
-    if (typeof req.renderer == 'function')
-        return req.renderer(req, res);
+    }).then(function() {
 
-    res.send(req.path + ' no renderer');
+        if (typeof req.renderer == 'function')
+            return req.renderer(req, res);
+
+        res.send(req.path + ' no renderer');
+
+    });
+
+
     //return res.render(view, contents);
     //res.end();
     //res.send(req.path + ":" + path + " " + section.title);

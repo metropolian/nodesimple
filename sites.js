@@ -56,14 +56,13 @@ module.exports = {
 
             */
 
+            personalize: require('./controllers/users/personalize.js'),
             login: require('./controllers/users/login.js'),
-
             logout: require('./controllers/users/logout.js'),
-
             register: require('./controllers/users/register.js'),
-
             recovery: require('./controllers/users/recovery.js'),
 
+            admin_users: require('./controllers/users/users.js')
         }
     }
 };

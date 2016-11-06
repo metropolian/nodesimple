@@ -79,6 +79,7 @@ var menus = sites.default.mainmenu;
 
 server.locals.db = db;
 server.locals.app_name = 'Simple';
+server.locals.users = {};
 
 server.set('view engine', 'ejs');
 server.set('views', process.cwd() + '/views');
