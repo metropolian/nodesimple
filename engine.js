@@ -1,5 +1,6 @@
 var log = require('npmlog');
 var Promise = require('bluebird');
+var users = require('./models/users.js');
 
 module.exports = function(req, res) {
     var locals = req.app.locals;
@@ -45,7 +46,7 @@ module.exports = function(req, res) {
                         req.app.locals.users[row.user_id] = row;
                         req.data.user = row;
 
-                        log.info('user', req.data.user);                        
+                        log.info('user', req.data.user);
                     }
                 }
 

@@ -11,12 +11,14 @@ var multer  = require('multer');
 var server = express();
 
 var ejs = require('ejs');
-var db = require('./database.js');
+var Database = require('./library/database.js');
 var sites = require('./sites.js');
 
 var engine = reloader('./engine.js');
 
-db.connect({
+var db = new Database({
+    type      : 'mysql',
+
     host      : 'localhost',
     port      : 3306,
     user      : 'root',
@@ -28,49 +30,13 @@ db.connect({
     collation : 'utf8_general_ci'
 });
 
-/*
-db.query('SELECT * FROM users', function(err, rows) {
-    log.info('rows', rows);
-}); */
- /*
-db.insert('users', { username: 'admin', password: '1234'}, function(error, rows) {
-
-    log.info('res', rows);
-});
-
-*/
-
-/*
-new promise(function(resolve) {
-    db.selectRow("*", "users", { user_id: 1 }, function(err, row) {
-        log.info('res', row);
-        resolve();
-    } );
-}).then(function(){
-    log.info('done', 'done');
-
-}).catch(function(){
-    log.info('done', 'done');
-});
-
-*/
-
-//process.exit();
-//return;
-
-/*
-db.update('users',
-    { username: 'yaysa', password: 'gaga', email: 'dodo', flags: 1 },
-    "user_id = 3",
-    function(err, results) {
-        log.info('res', results);
-        log.error('res', err);
-    } );
-*/
-
 ejs.renderFileSync = function( fname, opts ) {
     return ejs.renderFile('views/base.ejs', { body: {} }, function(err, str) { return str; });
 };
+
+fs.readdirSync('./models').forEach(function() {
+
+})
 
 process.chdir(__dirname);
 
